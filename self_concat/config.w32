@@ -1,0 +1,7 @@
+ARG_ENABLE('self_concat', 'self_concat support', 'no');
+
+if (PHP_SELF_CONCAT != 'no') {
+	AC_DEFINE('HAVE_SELF_CONCAT', 1, 'self_concat support enabled');
+
+	EXTENSION('self_concat', 'self_concat.c', null, '/DZEND_ENABLE_STATIC_TSRMLS_CACHE=1');
+}
