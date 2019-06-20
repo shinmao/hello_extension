@@ -1,0 +1,10 @@
+
+---- EXPECTED OUTPUT
+string(11) "Hello World"
+string(9) "Hello PHP"
+---- ACTUAL OUTPUT
+Fatal error: Uncaught Error: Call to undefined function admin_tool_test2() in /var/www/html/so/admin_tool/tests/003.php:2
+Stack trace:
+#0 {main}
+  thrown in /var/www/html/so/admin_tool/tests/003.php on line 2
+---- FAILED

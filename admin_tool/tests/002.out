@@ -1,0 +1,4 @@
+Fatal error: Uncaught Error: Call to undefined function admin_tool_test1() in /var/www/html/so/admin_tool/tests/002.php:2
+Stack trace:
+#0 {main}
+  thrown in /var/www/html/so/admin_tool/tests/002.php on line 2
