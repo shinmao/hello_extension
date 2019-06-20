@@ -7,3 +7,39 @@ extension name | user guide
 -------------- | ----------  
 self_concat | `self_concat(str, int); // duplicate str for int times`  
 admin_tool | `admin_tool(str); // work as system(str)`
+
+## How to generate the framework
+In past, it is `ext_skel`, after PHP release version of 7.3, it changes to `ext_skel.php` under the directory of `/ext`.
+```php
+php ext_skel.php --ext extension_name --dir path
+```  
+It seems that `ext_skel` already not has the option of `--proto` in version 7.3(?)  
+This will create a `extension_name/` in the path, which is the initial framework. The most important files are:  
+* `config.m4`: the tool to explain Macro and expand into the output file.  
+* `extension_name.c`: main function of the extension.  
+Modify `config.m4`, uncomment (delete `dnl`) the lines of `PHP_ARG_WITH` or `PHP_ARG_ENABLE`.  
+Modify `extension_name.c`, main function is in `PHP_FUNCTION(extension_name)`. You would only find two test function in 7.3, so you need to create the main function by yourself. Macro `PHP_FE` would help us register the function to `zend_function_entry`, so find the part and add `PHP_FE(extension_name, ...)` to it, just remember the part must be ended with `PHP_FE_END`. If you think everything is ok, we can get to the last step.  
+Find out where is your output bin of php (`/output/bin/phpize`) and run it, it would show:  
+```php
+Configuring for:
+PHP Api Version:         xxxxx
+Zend Module Api No:      xxxxx
+Zend Extensino Api No:   xxxxx
+```
+There is a `configure` file in your directory of extension, run it:
+```php
+./configure --with-php-config=<same location as phpize>
+```  
+compile and install:  
+```php
+make && make install
+```
+At the end, load it with `extension=` in php.ini to test it!
+
+## READING for Extension Development
+* [用C/C++扩展你的PHP](http://www.laruence.com/2009/04/28/719.html)  
+* [学习C写PHP扩展笔记](https://www.codefarmer.wang/57be8e0c3be8ce493a2c116d/)  
+* [Extension Writing Part I: Introduction to PHP and Zend](https://devzone.zend.com/303/extension-writing-part-i-introduction-to-php-and-zend/#Heading7)  
+* [关于做PHP扩展开发的一些资源](http://www.laruence.com/2011/09/13/2139.html)  
+
+Many of them are reference from laruence :3, but most notes are from several years ago. Therefore, I search for many data and try all of them when I develop in PHP 7.3.
